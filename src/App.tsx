@@ -78,7 +78,7 @@ export default function App() {
       <Header currentStep={currentStep} onReset={handleReset} />
 
       {/* Main Container - Single Screen Layout */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 py-3 space-y-3 flex flex-col overflow-hidden">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 py-2.5 space-y-2.5 flex flex-col min-h-0 overflow-hidden">
         {/* Wizard Step Indicator - Compact */}
         <StepIndicator
           currentStep={currentStep}
@@ -86,17 +86,17 @@ export default function App() {
           canNavigateToStep={canNavigateToStep}
         />
 
-        {/* Dynamic Content by Step - Scrollable within fixed height */}
-        <div className="flex-1 relative min-h-0 overflow-y-auto">
+        {/* Dynamic Content by Step */}
+        <div className="flex-1 relative min-h-0 overflow-hidden flex flex-col">
           <AnimatePresence mode="wait">
             {currentStep === 1 && (
               <motion.div
                 key="step-1"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="h-full"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="h-full flex flex-col min-h-0 overflow-y-auto lg:overflow-hidden"
               >
                 <UploadStep
                   selectedFeature={selectedFeature}
@@ -111,11 +111,11 @@ export default function App() {
             {currentStep === 2 && uploadData && (
               <motion.div
                 key="step-2"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="h-full"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="h-full flex flex-col min-h-0"
               >
                 <ColumnSelectionStep
                   uploadData={uploadData}
@@ -132,11 +132,11 @@ export default function App() {
             {currentStep === 3 && processedResult && (
               <motion.div
                 key="step-3"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="h-full"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+                className="h-full flex flex-col justify-center min-h-0 overflow-y-auto"
               >
                 <DownloadStep
                   result={processedResult}
@@ -149,17 +149,11 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer - Compact */}
-      <footer className="border-t border-slate-200/80 bg-white py-2 mt-auto">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px] text-slate-500">
-          <div>
-            Limpador de Planilhas Excel XLSX • Até 100 MB
-          </div>
-          <div className="flex items-center gap-3 text-slate-400">
-            <span>Preservação de formatos</span>
-            <span>•</span>
-            <span>Processamento local</span>
-          </div>
+      {/* Footer - Minimalist */}
+      <footer className="border-t border-slate-200 bg-white py-1.5 shrink-0">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 flex items-center justify-between text-[10px] text-slate-500">
+          <span>EPR Paraná • Processamento de Planilhas XLSX & PDF</span>
+          <span className="text-slate-400">Integridade total de fotos e dados</span>
         </div>
       </footer>
     </div>

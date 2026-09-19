@@ -801,7 +801,7 @@ app.get('/api/upload-status/:uploadId', (req, res) => {
 
 // 1. Chunked Upload endpoint (bypasses Cloud Run / proxy 32MB payload limit for large files)
 app.post('/api/upload-chunk', (req, res) => {
-  chunkUpload.single('chunk')(req, res, async (err) => {
+  (chunkUpload.single('chunk') as any)(req, res, async (err: any) => {
     if (err) {
       console.error('Chunk upload error:', err);
       return res.status(400).json({
@@ -908,7 +908,7 @@ app.post('/api/upload-chunk', (req, res) => {
 
 // 2. Direct Upload endpoint (for files submitted as single multipart request)
 app.post('/api/upload', (req, res) => {
-  upload.single('file')(req, res, async (err) => {
+  (upload.single('file') as any)(req, res, async (err: any) => {
     if (err) {
       console.error('Multer upload error:', err);
       if (err instanceof multer.MulterError) {
