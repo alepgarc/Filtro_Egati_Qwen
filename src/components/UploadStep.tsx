@@ -323,13 +323,17 @@ export const UploadStep: React.FC<UploadStepProps> = ({
 
   return (
     <div className="flex flex-col gap-4 max-w-4xl mx-auto w-full py-2">
-      {/* 1. Control Card: Mode & Parcial Selection with Clean Wrap */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-2xs space-y-3.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Selecione a Feature de Processamento:
-          </span>
+      {/* 1. Control Card: Mode & Parcial Selection */}
+      <div className="bg-white border border-slate-200 rounded-xl p-3.5 sm:p-4 shadow-2xs space-y-3">
+        {/* Header with Title and Parcial Selector */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+              Selecione a Feature de Processamento:
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
               <span className="text-slate-500 font-semibold">Parcial:</span>
               <select
@@ -345,11 +349,16 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 ))}
               </select>
             </div>
+
+            <div className="hidden md:flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg px-2.5 py-1 text-xs font-mono font-bold">
+              <FileCode2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Parcial {parcialNumber || '1'}{getAreaIdentifier(selectedFeature) || '_'}BR-369.xlsx</span>
+            </div>
           </div>
         </div>
 
-        {/* Feature Mode Selector: Clean flex-wrap with NO scrollbar */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Feature Mode Selector: Evenly distributed buttons filling 100% width with equal symmetry */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-1.5 sm:gap-2">
           {featureOptions.map((opt) => {
             const isSelected = selectedFeature === opt.id;
             const IconComponent = opt.icon;
@@ -358,27 +367,26 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 key={opt.id}
                 type="button"
                 onClick={() => onFeatureChange(opt.id)}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer select-none border ${
+                className={`w-full py-2 px-2 rounded-lg text-xs font-semibold transition-all flex flex-row lg:flex-col items-center justify-center gap-1.5 cursor-pointer select-none border text-center ${
                   isSelected
-                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs font-bold'
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <IconComponent className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
-                <span>{opt.label}</span>
+                <span className="truncate">{opt.shortLabel}</span>
               </button>
             );
           })}
         </div>
 
         {/* Feature Summary & File naming preview */}
-        <div className="text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100">
-          <span>
-            <strong className="text-slate-800 font-semibold">{currentFeatureConfig.name}:</strong> Seleção padrão configurada com <strong>{currentFeatureConfig.fields.length} campos</strong>.
+        <div className="text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pt-2 border-t border-slate-100">
+          <span className="truncate">
+            <strong className="text-slate-800 font-semibold">{currentFeatureConfig.name}:</strong> Seleção padrão pré-configurada com <strong>{currentFeatureConfig.fields.length} campos</strong>.
           </span>
-          <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md self-start sm:self-auto">
-            <FileCode2 className="w-3 h-3 text-emerald-600" />
-            Parcial {parcialNumber || '1'}{getAreaIdentifier(selectedFeature) || '_'}BR-369.xlsx
+          <span className="text-slate-400 text-[11px] shrink-0">
+            Compatível com fotos de alta resolução (até 500 MB)
           </span>
         </div>
       </div>
