@@ -73,21 +73,21 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/60 text-slate-800 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-900">
+    <div className="h-screen bg-slate-100/60 text-slate-800 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-900 overflow-hidden">
       {/* Top Navigation / Brand Header */}
       <Header currentStep={currentStep} onReset={handleReset} />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        {/* Wizard Step Indicator */}
+      {/* Main Container - Single Screen Layout */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-4 py-3 space-y-3 flex flex-col overflow-hidden">
+        {/* Wizard Step Indicator - Compact */}
         <StepIndicator
           currentStep={currentStep}
           onStepClick={handleStepClick}
           canNavigateToStep={canNavigateToStep}
         />
 
-        {/* Dynamic Content by Step */}
-        <div className="relative min-h-[460px]">
+        {/* Dynamic Content by Step - Scrollable within fixed height */}
+        <div className="flex-1 relative min-h-0 overflow-y-auto">
           <AnimatePresence mode="wait">
             {currentStep === 1 && (
               <motion.div
@@ -96,6 +96,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
+                className="h-full"
               >
                 <UploadStep
                   selectedFeature={selectedFeature}
@@ -114,6 +115,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
+                className="h-full"
               >
                 <ColumnSelectionStep
                   uploadData={uploadData}
@@ -134,6 +136,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
+                className="h-full"
               >
                 <DownloadStep
                   result={processedResult}
@@ -146,16 +149,16 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200/80 bg-white py-4 mt-auto">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      {/* Footer - Compact */}
+      <footer className="border-t border-slate-200/80 bg-white py-2 mt-auto">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px] text-slate-500">
           <div>
-            Limpador de Planilhas Excel XLSX • Suporte a arquivos de até 100 MB
+            Limpador de Planilhas Excel XLSX • Até 100 MB
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Preservação de formatos e fórmulas</span>
+          <div className="flex items-center gap-3 text-slate-400">
+            <span>Preservação de formatos</span>
             <span>•</span>
-            <span>Processamento local temporário</span>
+            <span>Processamento local</span>
           </div>
         </div>
       </footer>

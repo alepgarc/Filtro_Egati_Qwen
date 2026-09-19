@@ -35,8 +35,8 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
   ];
 
   return (
-    <div className="w-full bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div className="w-full bg-white border border-slate-200 rounded-xl p-3 sm:p-4 shadow-xs">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
         {steps.map((item, idx) => {
           const isCompleted = currentStep > item.step;
           const isCurrent = currentStep === item.step;
@@ -47,7 +47,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
             <div
               key={item.step}
               onClick={() => isClickable && onStepClick && onStepClick(item.step)}
-              className={`flex items-center gap-3.5 p-3 rounded-xl transition-all ${
+              className={`flex items-center gap-2.5 p-2.5 rounded-lg transition-all ${
                 isCurrent
                   ? 'bg-emerald-50/80 border border-emerald-300 text-emerald-950'
                   : isCompleted
@@ -56,7 +56,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
               }`}
             >
               <div
-                className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm font-semibold transition-colors ${
+                className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-semibold transition-colors ${
                   isCompleted
                     ? 'bg-emerald-600 text-white'
                     : isCurrent
@@ -64,14 +64,14 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                     : 'bg-slate-200 text-slate-500'
                 }`}
               >
-                {isCompleted ? <Check className="w-4 h-4 stroke-[2.5]" /> : <IconComponent className="w-4 h-4" />}
+                {isCompleted ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : <IconComponent className="w-3.5 h-3.5" />}
               </div>
 
               <div className="min-w-0">
-                <div className="text-sm font-semibold truncate">
+                <div className="text-xs font-semibold truncate">
                   {item.title}
                 </div>
-                <div className={`text-xs truncate ${isCurrent ? 'text-emerald-700' : 'text-slate-500'}`}>
+                <div className={`text-[10px] truncate ${isCurrent ? 'text-emerald-700' : 'text-slate-500'}`}>
                   {item.subtitle}
                 </div>
               </div>
