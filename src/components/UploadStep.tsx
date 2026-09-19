@@ -322,40 +322,14 @@ export const UploadStep: React.FC<UploadStepProps> = ({
   const currentFeatureConfig = DRAINAGE_FEATURES[selectedFeature];
 
   return (
-    <div className="h-full flex flex-col gap-3 min-h-0">
-      {/* 1. Control Card: Mode & Parcial Selection */}
-      <div className="bg-white border border-slate-200 rounded-xl p-3 sm:p-4 shadow-2xs shrink-0 space-y-3">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5">
-          {/* Feature Mode Selector (Buttons) */}
-          <div className="flex-1 min-w-0">
-            <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-              <span>Selecione a Feature de Processamento:</span>
-            </div>
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
-              {featureOptions.map((opt) => {
-                const isSelected = selectedFeature === opt.id;
-                const IconComponent = opt.icon;
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => onFeatureChange(opt.id)}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer select-none border ${
-                      isSelected
-                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
-                        : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    <IconComponent className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
-                    <span>{opt.shortLabel}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Parcial & Output File Format */}
-          <div className="flex items-center gap-2 shrink-0 pt-1 md:pt-0 border-t md:border-t-0 border-slate-100">
+    <div className="flex flex-col gap-4 max-w-4xl mx-auto w-full py-2">
+      {/* 1. Control Card: Mode & Parcial Selection with Clean Wrap */}
+      <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-2xs space-y-3.5">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Selecione a Feature de Processamento:
+          </span>
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs">
               <span className="text-slate-500 font-semibold">Parcial:</span>
               <select
@@ -371,35 +345,52 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 ))}
               </select>
             </div>
-
-            <div className="hidden lg:flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-600">
-              <FileCode2 className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-[11px] font-mono text-emerald-800 font-bold">
-                Parcial {parcialNumber || '1'}{getAreaIdentifier(selectedFeature) || '_'}BR-369.xlsx
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* Feature Summary Line */}
-        <div className="text-[11px] text-slate-500 flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
-          <span className="truncate">
-            <strong className="text-slate-800 font-semibold">{currentFeatureConfig.name}:</strong> Seleção padrão pré-configurada com <strong>{currentFeatureConfig.fields.length} campos</strong>.
+        {/* Feature Mode Selector: Clean flex-wrap with NO scrollbar */}
+        <div className="flex flex-wrap items-center gap-2">
+          {featureOptions.map((opt) => {
+            const isSelected = selectedFeature === opt.id;
+            const IconComponent = opt.icon;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => onFeatureChange(opt.id)}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer select-none border ${
+                  isSelected
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                    : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-300'
+                }`}
+              >
+                <IconComponent className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
+                <span>{opt.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Feature Summary & File naming preview */}
+        <div className="text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <span>
+            <strong className="text-slate-800 font-semibold">{currentFeatureConfig.name}:</strong> Seleção padrão configurada com <strong>{currentFeatureConfig.fields.length} campos</strong>.
           </span>
-          <span className="text-slate-400 shrink-0">
-            Até 500 MB com fotos
+          <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md self-start sm:self-auto">
+            <FileCode2 className="w-3 h-3 text-emerald-600" />
+            Parcial {parcialNumber || '1'}{getAreaIdentifier(selectedFeature) || '_'}BR-369.xlsx
           </span>
         </div>
       </div>
 
-      {/* 2. Drag & Drop Upload Zone (Expands to fill available space) */}
+      {/* 2. Drag & Drop Upload Zone (Balanced height with comfortable padding) */}
       <div
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => !isUploading && fileInputRef.current?.click()}
-        className={`flex-1 min-h-[220px] rounded-xl border-2 border-dashed p-6 sm:p-8 text-center transition-all bg-white flex flex-col items-center justify-center cursor-pointer select-none relative shadow-2xs ${
+        className={`rounded-xl border-2 border-dashed py-8 sm:py-10 px-6 text-center transition-all bg-white flex flex-col items-center justify-center cursor-pointer select-none relative shadow-2xs ${
           isDragging
             ? 'border-emerald-500 bg-emerald-50/50 scale-[1.005]'
             : 'border-slate-300 hover:border-emerald-500 hover:bg-slate-50/60'
@@ -414,15 +405,15 @@ export const UploadStep: React.FC<UploadStepProps> = ({
           disabled={isUploading}
         />
 
-        <div className="w-14 h-14 rounded-xl bg-emerald-100/80 text-emerald-700 flex items-center justify-center mb-3 shadow-2xs pointer-events-none">
+        <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3 shadow-2xs pointer-events-none">
           {isUploading ? (
-            <Loader2 className="w-7 h-7 animate-spin" />
+            <Loader2 className="w-6 h-6 animate-spin" />
           ) : (
-            <UploadCloud className="w-7 h-7" />
+            <UploadCloud className="w-6 h-6" />
           )}
         </div>
 
-        <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight pointer-events-none">
+        <h3 className="text-base font-bold text-slate-900 tracking-tight pointer-events-none">
           {isUploading ? 'Enviando e analisando planilha...' : `Enviar planilha de ${currentFeatureConfig.name}`}
         </h3>
         <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto pointer-events-none">
@@ -451,12 +442,12 @@ export const UploadStep: React.FC<UploadStepProps> = ({
         {/* Badges */}
         {!isUploading && (
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500 pointer-events-none">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-100 rounded-md font-medium text-slate-700 text-[11px]">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 rounded-md font-medium text-slate-700 text-[11px]">
               <FileSpreadsheet className="w-3 h-3 text-emerald-600" />
-              Arquivos .xlsx e .xls
+              Arquivos .xlsx e .xls (Até 500 MB)
             </span>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-100 rounded-md font-medium text-slate-700 text-[11px]">
-              Preservação de fotos e fórmulas
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 rounded-md font-medium text-slate-700 text-[11px]">
+              Preservação total de fotos e integridade
             </span>
           </div>
         )}
@@ -464,7 +455,7 @@ export const UploadStep: React.FC<UploadStepProps> = ({
 
       {/* Error Alert */}
       {errorMessage && (
-        <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start gap-2.5 text-xs shrink-0">
+        <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start gap-2.5 text-xs">
           <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
           <div className="flex-1">
             <h4 className="font-bold">Atenção</h4>

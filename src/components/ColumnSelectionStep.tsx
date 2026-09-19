@@ -417,7 +417,7 @@ export const ColumnSelectionStep: React.FC<ColumnSelectionStepProps> = ({
       {/* 1. Top Control Bar: Sheets & Mode */}
       <div className="bg-white border border-slate-200 rounded-xl p-2.5 sm:px-3.5 shadow-2xs shrink-0 flex flex-col md:flex-row md:items-center justify-between gap-2">
         {/* Sheet Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-thin">
+        <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mr-1 flex items-center gap-1 shrink-0">
             <Layers className="w-3.5 h-3.5 text-emerald-600" />
             Abas:

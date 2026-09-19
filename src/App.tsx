@@ -96,7 +96,7 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.18 }}
-                className="h-full flex flex-col min-h-0 overflow-y-auto lg:overflow-hidden"
+                className="h-full flex flex-col justify-center min-h-0 overflow-y-auto"
               >
                 <UploadStep
                   selectedFeature={selectedFeature}
